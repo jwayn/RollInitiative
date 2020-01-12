@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from '@/router';
 import uuidv4 from 'uuid';
 
-axios.defaults.baseURL = `http://${process.env.NODE_ENV === 'development' ? 'localhost' : 'rollinitiative.app'}:${process.env.API_PORT || 3000}/`;
+axios.defaults.baseURL = `https://${process.env.API_URL}/`;
 
 Vue.use(Vuex);
 
