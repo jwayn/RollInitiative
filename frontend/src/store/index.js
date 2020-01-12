@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from '@/router';
 import uuidv4 from 'uuid';
 
-axios.defaults.baseURL = 'http://192.168.0.126:3000/';
+axios.defaults.baseURL = `http://localhost:${process.env.API_PORT}/`;
 
 Vue.use(Vuex);
 
