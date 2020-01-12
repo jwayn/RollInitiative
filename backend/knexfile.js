@@ -18,6 +18,7 @@ module.exports = {
     connection: {
       host: process.env.HOST,
       user: process.env.DB_USER,
+      port: process.env.DB_PORT,
       password: process.env.DB_PASS,
       database: process.env.DATABASE,
       ssl: true,
@@ -29,6 +30,7 @@ module.exports = {
     connection: {
       host: process.env.HOST,
       user: process.env.DB_USER,
+      port: process.env.DB_PORT,
       password: process.env.DB_PASS,
       database: process.env.DATABASE,
       ssl: true,
