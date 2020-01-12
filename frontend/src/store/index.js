@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from '@/router';
 import uuidv4 from 'uuid';
 
-axios.defaults.baseURL = `https://${process.env.API_URL}/`;
+axios.defaults.baseURL = `https://${process.env.API_URL}/api/`;
 
 Vue.use(Vuex);
 
