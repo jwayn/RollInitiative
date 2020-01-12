@@ -285,10 +285,10 @@ export default {
     position: absolute;
     width: 1rem;
     height: 1rem;
-    border: 2px solid #718096;
+    border: 2px solid #FFFFFF;
     border-radius: 50%;
     animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-    border-color: #718096 transparent transparent transparent;
+    border-color: #FFFFFF transparent transparent transparent;
   }
 
   .lds-ring div:nth-child(1) {
