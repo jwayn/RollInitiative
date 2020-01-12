@@ -7,8 +7,6 @@ const verifyToken = require('../middleware/verify-token');
 const nodemailer = require('nodemailer');
 const mg = require('nodemailer-mailgun-transport');
 
-require('dotenv').config();
-
 const User = require('../db/user')
 
 const router = express.Router();

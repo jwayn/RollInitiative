@@ -18,4 +18,17 @@ router.get('/dbinfo', async (req, res, next) => {
     }
 });
 
+router.get('/envinfo', async (req, res, next) => {
+    try {
+        const env_info = {
+            frontend_url: process.env.FRONTEND_URL,
+            node_env: process.env.NODE_ENV,
+        }
+
+        res.json(env_info);
+    } catch(err) {
+        next(err);
+    }
+});
+
 module.exports = router;

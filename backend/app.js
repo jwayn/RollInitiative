@@ -1,3 +1,4 @@
+require('dotenv').config();
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -11,6 +12,7 @@ const actorsRouter = require('./routes/actors');
 const adminRouter = require('./routes/admin');
 
 const app = express();
+
 
 app.use(cors());
 app.use(express.static(__dirname + '/public'));
