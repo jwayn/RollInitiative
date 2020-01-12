@@ -139,7 +139,7 @@ router.post('/requestpassreset', async (req, res, next) => {
                 //Insert a pass reset record in DB
                 await User.createResetPassToken(user.id, token).catch(err => {next(err)});
                 // Email the user a link to the frontend 
-                const link = `https://${process.env.FRONTEND_URL}/forgotpass?token=${token}`;
+                const link = `${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${process.env.FRONTEND_URL}/forgotpass?token=${token}`;
                 sendEmail(
                     `${user.username} <${user.email}>`,
                     'Reset your RollInitiative password.',
@@ -277,11 +277,6 @@ router.post('/signup', async (req, res, next) => {
             );
 
             res.sendStatus(200);
-            // await jwt.sign({user_id: newUser.id, email: newUser.email, username: newUser.username}, process.env.JWT_SECRET, {expiresIn: '1d'}, (err, token) => {
-            //     res.json({
-            //         token
-            //     });
-            // });
 
         } else {
             next(createError(401, 'A user with that email address already exists.'))

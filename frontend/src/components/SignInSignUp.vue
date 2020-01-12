@@ -74,7 +74,7 @@
           </button>
         </div>
         <div class="mt-4" v-if="Object.getOwnPropertyNames(formErrors).length > 0">
-          <transition-group name="login-error-fade">
+          <transition-group name="login-error-fade" mode="out-in">
             <p v-for="error in formErrors" :key="error" class="text-sm text-red-500 py-1">
               {{error}}
               <button @click.prevent="resendVerification" type="button" class="text-green-700 font-bold hover:text-green-500" v-if="error.includes('Account is not verified')">Resend verification link?</button>
@@ -190,11 +190,11 @@ export default {
             this.message = "A verification link has been sent to your email. Please verify your account to sign in."
             this.showMessage = true;
           } else {
-            this.formErrors.login = res.message;
+            this.formErrors.login = res.data.message;
             this.loginLoading = false;
           }
         }).catch(err => {
-          // eslint-disable-next-line no-console
+          // eslint-disable-next-line
           console.error(err);
           this.loginLoading = false;
         })

@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from '@/router';
 import uuidv4 from 'uuid';
 
-axios.defaults.baseURL = `https://${process.env.VUE_APP_API_URL}/`;
+axios.defaults.baseURL = `http://${process.env.VUE_APP_API_URL || 'localhost:3000'}/`;
 
 Vue.use(Vuex);
 
@@ -168,12 +168,10 @@ export default new Vuex.Store({
                     username: credentials.username,
                     password: credentials.password,
                 });
-    
-                return response.status;
+
+                return response;
             } catch (err) {
-                if(err.response) {
-                    return err.response;
-                }
+                if(err.response) return err.response;
             }
         },
         async deleteActor(context, actor_id) {
