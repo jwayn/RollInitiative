@@ -2,14 +2,14 @@ version: "3"
 
 services:
     backend:
-        build: ./initiative-backend
+        build: ./backend
         ports:
             - 3000:3000
         volumes:
-            - ./initiative-backend:/data
+            - ./backend:/data
     frontend:
-        build: ./initiative-frontend
+        build: ./frontend
         ports:
             - 8080:8080
         volumes:
-            - ./initiative-frontend/dist:/data
+            - ./frontend/dist:/data
