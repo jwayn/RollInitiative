@@ -73,7 +73,7 @@
             <div v-if="loginLoading" class="lds-ring ml-2"><div></div><div></div><div></div><div></div></div>
           </button>
         </div>
-        <div class="mt-4">
+        <div class="mt-4" v-if="Object.getOwnPropertyNames(formErrors).length > 0">
           <transition-group name="login-error-fade">
             <p v-for="error in formErrors" :key="error" class="text-sm text-red-500 py-1">
               {{error}}
@@ -118,7 +118,7 @@
           </button>
         </div>
 
-        <div class="mt-4">
+        <div class="mt-4" v-if="Object.getOwnPropertyNames(formErrors).length > 0">
           <transition-group name="login-error-fade" mode="out-in">
             <p v-for="error in formErrors" :key="error" class="text-sm text-red-500 py-1">{{error}}</p>
           </transition-group>

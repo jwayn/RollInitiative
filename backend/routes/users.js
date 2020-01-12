@@ -139,7 +139,7 @@ router.post('/requestpassreset', async (req, res, next) => {
                 //Insert a pass reset record in DB
                 await User.createResetPassToken(user.id, token).catch(err => {next(err)});
                 // Email the user a link to the frontend 
-                const link = `${req.protocol}://${req.headers.host}/forgotpass?token=${token}`;
+                const link = `https://${process.env.FRONTEND_URL}/forgotpass?token=${token}`;
                 sendEmail(
                     `${user.username} <${user.email}>`,
                     'Reset your RollInitiative password.',
@@ -207,8 +207,8 @@ router.get('/resendverification', async (req, res, next) => {
                 await sendEmail(
                     `${user.username} <${user.email}>`,
                     'Please verify your RollInitiative account.',
-                    `Please <a href="${req.protocol}://${req.headers.host}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
-                    `Please verify your RollInitiative account at ${req.protocol}://${req.headers.host}/verify?token=${verificationToken}`
+                    `Please <a href="https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
+                    `Please verify your RollInitiative account at https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}`
                 ).catch(err => {next(err)});
     
                 res.sendStatus(200);
@@ -272,8 +272,8 @@ router.post('/signup', async (req, res, next) => {
             await sendEmail(
                 `${newUser.username} <${newUser.email}>`,
                 'Please verify your RollInitiative account.',
-                `Please <a href="${req.protocol}://${req.headers.host}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
-                `Please verify your RollInitiative account at ${req.protocol}://${req.headers.host}/verify?token=${verificationToken}`
+                `Please <a href="https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
+                `Please verify your RollInitiative account at https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}`
             );
 
             res.sendStatus(200);
