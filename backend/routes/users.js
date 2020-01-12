@@ -23,19 +23,12 @@ const auth = {
 const nodemailerMailgun = nodemailer.createTransport(mg(auth));
  
 function sendEmail(recipient, subject, html, text) {
-    nodemailerMailgun.sendMail({
+    return nodemailerMailgun.sendMail({
         from: 'Roll Initiative <info@rollinitiative.app>',
         to: recipient,
         subject,
         html: html ? html : '',
         text,
-    }, (err, info) => {
-        if (err) {
-            console.log(`Error: ${err}`);
-        }
-        else {
-            console.log(`Response: ${info}`);
-        }
     });
 }
 
@@ -140,12 +133,12 @@ router.post('/requestpassreset', async (req, res, next) => {
                 await User.createResetPassToken(user.id, token).catch(err => {next(err)});
                 // Email the user a link to the frontend 
                 const link = `${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${process.env.FRONTEND_URL}/forgotpass?token=${token}`;
-                sendEmail(
+                await sendEmail(
                     `${user.username} <${user.email}>`,
                     'Reset your RollInitiative password.',
                     `Please click <a href="${link}">here</a> to reset your password.`,
                     `Please click ${link} to reset your password.`
-                );
+                ).catch(err => {next(err)});
                 res.sendStatus(200);
             } else {
                 res.sendStatus(204);
@@ -207,8 +200,8 @@ router.get('/resendverification', async (req, res, next) => {
                 await sendEmail(
                     `${user.username} <${user.email}>`,
                     'Please verify your RollInitiative account.',
-                    `Please <a href="https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
-                    `Please verify your RollInitiative account at https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}`
+                    `Please <a href="${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${process.env.FRONTEND_URL}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
+                    `Please verify your RollInitiative account at ${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${process.env.FRONTEND_URL}/verify?token=${verificationToken}`
                 ).catch(err => {next(err)});
     
                 res.sendStatus(200);
@@ -254,7 +247,7 @@ router.delete('/', verifyToken, async (req, res, next) => {
 
 router.post('/signup', async (req, res, next) => {
     if(validUser(req.body)) {
-        const user = await User.getOneByEmail(req.body.email)
+        const user = await User.getOneByEmail(req.body.email).catch(err => {next(err)});
         if(!user) {
             const hash = await bcrypt.hash(req.body.password, 10);
             const userId = await uuidv4();
@@ -265,16 +258,16 @@ router.post('/signup', async (req, res, next) => {
                 password: hash,
             };
 
-            const newUser = await User.create(user);
+            const newUser = await User.create(user).catch(err => {next(err)});
 
-            const verificationToken = await User.createVerification(newUser.id, generateToken(40));
+            const verificationToken = await User.createVerification(newUser.id, generateToken(40)).catch(err => {next(err)});
             console.log(verificationToken);
             await sendEmail(
                 `${newUser.username} <${newUser.email}>`,
                 'Please verify your RollInitiative account.',
-                `Please <a href="https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
-                `Please verify your RollInitiative account at https://${process.env.FRONTEND_URL}/verify?token=${verificationToken}`
-            );
+                `Please <a href="${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${process.env.FRONTEND_URL}/verify?token=${verificationToken}">verify your RollInitiative account</a>.`,
+                `Please verify your RollInitiative account at ${process.env.NODE_ENV === 'development' ? 'http' : 'https'}://${process.env.FRONTEND_URL}/verify?token=${verificationToken}`
+            ).catch(err => next(err));
 
             res.sendStatus(200);
 

@@ -5,7 +5,7 @@ import axios from 'axios';
 import router from '@/router';
 import uuidv4 from 'uuid';
 
-axios.defaults.baseURL = `${process.env.VUE_APP_API_URL ? 'https' : 'http'}://${process.env.VUE_APP_API_URL || 'localhost:3000'}/`;
+axios.defaults.baseURL = `${process.env.NODE_ENV !== 'development' ? 'https' : 'http'}://${process.env.VUE_APP_API_URL}/`;
 
 Vue.use(Vuex);
 
@@ -367,6 +367,7 @@ export default new Vuex.Store({
         async signOut() {
             this.commit('signIn', false);
             this.commit('updateToken', null);
+            localStorage.clear('token');
             router.push('/tracker');
         },
         async sendPassReset(context, email) {

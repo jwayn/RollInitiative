@@ -162,7 +162,7 @@ export default {
           email: this.email,
           password: this.password,
         }).then(res => {
-          if(res === 200) {
+          if(res.status === 200) {
             this.loginLoading = false;
           } else {
             this.formErrors.login = res.data.message;
@@ -185,7 +185,7 @@ export default {
           username: this.username,
           password: this.password,
         }).then(res => {
-          if(res === 200) {
+          if(res.status === 200) {
             this.loginLoading = false;
             this.message = "A verification link has been sent to your email. Please verify your account to sign in."
             this.showMessage = true;
@@ -252,8 +252,13 @@ export default {
           this.formErrors = {};
         });
       }
+    },
+  },
+  mounted() {
+    if(this.$store.getters.isSignedIn) {
+      this.$router.push('/account');
     }
-  }
+  },
 }
 </script>
 
