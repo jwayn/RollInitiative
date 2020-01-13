@@ -9,6 +9,12 @@ import store from './store';
 
 Vue.config.productionTip = false
 
+if(process.env.NODE_ENV === 'production') {
+  Vue.config.devtools = false
+  Vue.config.debug = false
+  Vue.config.silent = true
+}
+
 new Vue({
   render: h => h(App),
   store,
